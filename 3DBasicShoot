@@ -1,0 +1,33 @@
+using System;
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+public class vurma : MonoBehaviour
+{
+
+    public Transform Gun;
+    public GameObject Bullet;     //Must have Rb
+    public Transform shootpoint;  //If shooting rotation down , change rotation.y -90
+    public float bulletspeed=5;
+    public float fireRate=2;
+    private float ReadyForNextShoot = 1f;
+    public float destroytime = 3;
+    void Update()
+    {
+
+            if (Time.time > ReadyForNextShoot)
+            {
+                ReadyForNextShoot = Time.time + 1 / fireRate;
+                shoot();
+            }
+    }
+
+    void shoot()
+    {
+            GameObject BulletIns = Instantiate(Bullet, shootpoint.position, shootpoint.rotation);
+            BulletIns.GetComponent<Rigidbody>().AddForce(BulletIns.transform.right * bulletspeed);
+            Destroy(BulletIns, destroytime);
+    }
+    
+}
